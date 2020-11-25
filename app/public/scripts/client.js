@@ -1,46 +1,45 @@
-console.log('isadhfsahjfaf');
-
 $(function () {
   console.log('in ready function');
   getPets();
   //on ready func using anonymous function
-
 });
 
-
-function getPets() { // ajax GET function
+function getPets() {
+  // ajax GET function
   $.ajax({
     method: 'GET',
-    url: '/pets' // setting the url for data transactions
-  }).then(function (response) {
-    console.log(response);
-    renderPets(response); // call render with response from server
-  }).catch(function (error) {
-    console.log('error in GET route', error);
-  });
-};
+    url: '/pets', // setting the url for data transactions
+  })
+    .then(function (response) {
+      renderPets(response); // call render with response from server
+    })
+    .catch(function (error) {
+      console.log('error in GET route', error);
+    });
+}
 
-// POST request  
-function addPet() { 
-  console.log('adding pet')
+// POST request
+function addPet() {
+  console.log('adding pet');
   $.ajax({
-    method: 'POST', 
-    url: '/pets', 
-    data: { 
-      name: $('#petNameInput').val(), 
-      breed: $('#breedInput').val(), 
-      color: $('#colorInput').val(), 
-      notes: $('#petNotesInput').val() 
-      }
-}).then( function(response) {
-  console.log('pets posted') 
-})
+    method: 'POST',
+    url: '/pets',
+    data: {
+      name: $('#petNameInput').val(),
+      breed: $('#breedInput').val(),
+      color: $('#colorInput').val(),
+      notes: $('#petNotesInput').val(),
+    },
+  }).then(function (response) {
+    console.log('pets posted');
+  });
+}
 
-//  DELETE Request 
-function deletePet( petId ) {
+//  DELETE Request
+function deletePet(petId) {
   $.ajax({
     method: 'DELETE',
-    url: `/pets/${petId}`
+    url: `/pets/${petId}`,
   })
     .then(function (response) {
       getPets();
@@ -48,15 +47,15 @@ function deletePet( petId ) {
     .catch(function (error) {
       console.log('Error:', error);
       alert('Something bad happened. Try again later');
-    })
+    });
 }
 
 function checkInStatus(petId, petCheckIn) {
-  console.log (`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
+  console.log(`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
   $.ajax({
     method: 'PUT',
     url: `/pets/${petId}`,
-    data: petCheckIn
+    data: petCheckIn,
   })
     .then(function (response) {
       getPets();
@@ -64,29 +63,29 @@ function checkInStatus(petId, petCheckIn) {
     .catch(function (error) {
       console.log('Error:', error);
       alert('Something bad happened. Try again later');
-    })
+    });
 }
-// Render pets 
+// Render pets
 function renderPets(petData) {
   let display = $('#petTables');
+  pets = petData.pets;
   display.empty();
-  console.log('petData is...', petData[0].name);
-  // for (pet of petData) {
-  //   let $tr = $(`<tr data-id='${pet.id}'</tr>`);
-  //   $tr.data('pet', pet);
-  //   $tr.append(`<td class="name" data-name='${pet.name}'>${pet.name}</td>`);
-  //   $tr.append(`<td class="breed">${pet.breed}</td>`);
-  //   $tr.append(`<td class="color">${pet.color}</td>`);
-  //   $tr.append(
-  //     `<td class="checkIn" data-checkIn='${pet.checked_in}'>${pet.checked_in}</td>`
-  //   );
-  //   $tr.append(`<td class="notes">${pet.notes}</td>`);
-  //   $tr.append(
-  //     `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
-  //   );
-  //   $tr.append(
-  //     `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
-  //   );
-  //   display.append($tr);
-  // }
+
+  for (pet of pets) {
+    console.log(pet);
+    let $tr = $(`<tr data-id='${pet[0]}'</tr>`);
+    $tr.data('pet', pet);
+    $tr.append(`<td class="name" data-name='${pet[1]}'>${pet[1]}</td>`);
+    $tr.append(`<td class="breed">${pet[2]}</td>`);
+    $tr.append(`<td class="color">${pet[3]}</td>`);
+    $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
+    $tr.append(`<td class="notes">${pet[5]}</td>`);
+    $tr.append(
+      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
+    );
+    $tr.append(
+      `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
+    );
+    display.append($tr);
+  }
 }
