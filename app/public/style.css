@@ -13,17 +13,3 @@ h1,
   color: pink;
   font-size: 3rem;
 }
-
-table tr:nth:child(even) {
-  background: pink;
-}
-
-table tr:nth-child(odd) {
-  background: #17ddcc;
-}
-
-table td,
-th {
-  display: flex;
-  border: 1px solid #999;
-}
