@@ -1,0 +1,10 @@
+body {
+    background: linear-gradient(to bottom, transparent 0%, #fbf7ca 50%, transparent 100%);
+
+}
+
+h1,
+.fancy {
+    font-family: 'Fredericka the Great', cursive;
+    color: pink;
+}
