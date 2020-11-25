@@ -36,3 +36,26 @@ def addPet(pet):
   return response
 
 
+@app.route('/pets/<name> methods=['DELETE'])
+def deletePet(id):
+    try:
+        print(id)
+        connection = mainConnection
+        cursor = connection.cursor()
+        postgres_insert_query=""" DELETE FROM "pets" WHERE "id" = %s """
+        record_to_insert = [id]
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        return 'PUT'
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to DELETE in db: ", error)
+            return 'failed'
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
+            return 'finally'
+
