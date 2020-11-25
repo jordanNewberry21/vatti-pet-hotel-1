@@ -14,6 +14,36 @@ function getPets() { // ajax GET function
   });
 };
 
+// POST request  
+function addPet() { 
+  console.log('adding pet')
+  $.ajax({
+    method: 'POST', 
+    url: '/pets', 
+    data: { 
+      name: $('#petNameInput').val(), 
+      breed: $('#breedInput').val(), 
+      color: $('#colorInput').val(), 
+      notes: $('#petNotesInput').val() 
+      }
+}).then( function(response) {
+  console.log('pets posted') 
+})
+
+//  
+function deletePet( petId ) {
+  $.ajax({
+    method: 'DELETE',
+    url: `/pets/${petId}`
+  })
+    .then(function (response) {
+      getKoalas();
+    })
+    .catch(function (error) {
+      console.log('Error:', error);
+      alert('Something bad happened. Try again later');
+    })
+}
 
 function renderPets(petData) {
   let display = $('#petTables');
