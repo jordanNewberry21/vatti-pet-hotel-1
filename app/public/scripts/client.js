@@ -2,6 +2,19 @@ $(function () {
   //on ready func using anonymous function
 });
 
+function getPets() { // ajax GET function
+  $.ajax({
+    method: 'GET',
+    url: '/pets' // setting the url for data transactions
+  }).then(function (response) {
+    console.log(response);
+    renderPets(response); // call render with response from server
+  }).catch(function (error) {
+    console.log('error in GET route', error);
+  });
+};
+
+
 function renderPets(petData) {
   let display = $('#petTables');
   display.empty();
