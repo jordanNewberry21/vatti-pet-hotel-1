@@ -8,7 +8,7 @@ function renderPets(petData) {
   for (pet of petData) {
     let $tr = $(`<tr data-id='${pet.id}'</tr>`);
     $tr.data('pet', pet);
-    $tr.append(`<td class="name" data-name='${pet.pet}'>${pet.pet}</td>`);
+    $tr.append(`<td class="name" data-name='${pet.name}'>${pet.name}</td>`);
     $tr.append(`<td class="breed">${pet.breed}</td>`);
     $tr.append(`<td class="color">${pet.color}</td>`);
     $tr.append(
