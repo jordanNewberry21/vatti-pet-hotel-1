@@ -62,7 +62,7 @@ def addPet(pet):
     return response
 
 
-@app.route('/pets/<name>', methods=['DELETE'])
+@app.route('/pets/<id>', methods=['DELETE'])
 def deletePet(id):
     try:
         print(id)
