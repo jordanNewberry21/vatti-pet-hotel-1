@@ -37,7 +37,7 @@ function deletePet( petId ) {
     url: `/pets/${petId}`
   })
     .then(function (response) {
-      getKoalas();
+      getPets();
     })
     .catch(function (error) {
       console.log('Error:', error);
@@ -53,7 +53,7 @@ function checkInStatus(petId, petCheckIn) {
     data: petCheckIn
   })
     .then(function (response) {
-      getKoalas();
+      getPets();
     })
     .catch(function (error) {
       console.log('Error:', error);
