@@ -1,6 +1,7 @@
 $(function () {
   console.log('in ready function');
   getPets();
+  $('#petTableSpot').on('click', '.btn-delete', deletePet)
   //on ready func using anonymous function
 });
 
@@ -36,10 +37,12 @@ function addPet() {
 }
 
 //  DELETE Request
-function deletePet(petId) {
+function deletePet() {
+  let petId = $(this).closest('tr').data('id');
+  console.log('in delete-btn. pet id is... ', petId);
   $.ajax({
     method: 'DELETE',
-    url: `/pets/${petId}`,
+    url: `/pets/${petId}`
   })
     .then(function (response) {
       getPets();
@@ -67,7 +70,7 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTables');
+  let display = $('#petTableSpot');
   pets = petData.pets;
   display.empty();
 
