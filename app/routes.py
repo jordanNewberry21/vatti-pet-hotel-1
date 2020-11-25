@@ -105,11 +105,11 @@ def getAllPets():
 @app.route('/pets/<id>', methods=['PUT'])
 def putPet(id):
     try:
-        print(pet_id, request.json['date'])
+        print(id)
         connection = get_db_conn()
         cursor = connection.cursor()
         postgres_insert_query= 'UPDATE pets SET checked_in = NOT checked_in WHERE id =%s'
-        cursor.execute(postgres_insert_query, record_to_insert)
+        cursor.execute(postgres_insert_query)
         connection.commit()
         return 'recieved PUT'
     except (Exception, psycopg2.Error) as error :
