@@ -83,7 +83,7 @@ function renderPets(petData) {
     $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
-      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
+      `<td class="td-checkIn"><button onclick="checkInStatus(${pet[0]}, '${pet[4]}')" class='btn-checkIn'>Mark For checkIn</button></td>`
     );
     $tr.append(
       `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
