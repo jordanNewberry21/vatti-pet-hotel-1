@@ -8,9 +8,11 @@ def index():
 
 @app.route('/pets', methods=['GET', 'POST'])
 def pets(): 
-    return 'Pets' 
-
-
+  if request.method == 'GET':
+      #do stuff
+      return #placeHolder 
+  elif request.method == 'POST':
+      return addPet(request.form)
 
 def addPet(pet): 
   print('Checking in a new pet to the hotel!')
