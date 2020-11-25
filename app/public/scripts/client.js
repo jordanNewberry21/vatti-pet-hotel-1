@@ -32,11 +32,9 @@ function addPet(e) {
   };
   console.log(pet);
   $.ajax({
-    method: 'POST',
+    type: 'POST',
     url: '/pets',
-    dataType: 'json',
-    contentType: 'application/json; charset=utf-8',
-    data: JSON.stringify(pet),
+    data: pet, // object to send to server-side to input in DB
   }).then(function (response) {
     console.log('pets posted');
     getPets();
