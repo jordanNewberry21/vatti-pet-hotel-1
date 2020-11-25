@@ -1,6 +1,8 @@
 $(function () {
   console.log('in ready function');
   getPets();
+  $('#petTableSpot').on('click', '.btn-delete', deletePet);
+  $('#petSubmitBtn').on('click', addPet);
   //on ready func using anonymous function
 });
 
@@ -19,24 +21,30 @@ function getPets() {
 }
 
 // POST request
-function addPet() {
+function addPet(e) {
+  e.preventDefault();
   console.log('adding pet');
+  let pet = {
+    name: $('#petNameInput').val(),
+    breed: $('#breedInput').val(),
+    color: $('#colorInput').val(),
+    notes: $('#petNotesInput').val(),
+  };
   $.ajax({
     method: 'POST',
+    contentType: 'application/json',
     url: '/pets',
-    data: {
-      name: $('#petNameInput').val(),
-      breed: $('#breedInput').val(),
-      color: $('#colorInput').val(),
-      notes: $('#petNotesInput').val(),
-    },
+    dataType: 'json',
+    data: pet,
   }).then(function (response) {
     console.log('pets posted');
   });
 }
 
 //  DELETE Request
-function deletePet(petId) {
+function deletePet() {
+  let petId = $(this).closest('tr').data('id');
+  console.log('delete');
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
