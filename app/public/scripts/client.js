@@ -44,7 +44,7 @@ function addPet(e) {
 //  DELETE Request
 function deletePet() {
   let petId = $(this).closest('tr').data('id');
-  console.log('delete');
+  console.log('in delete-btn. pet id is... ', petId);
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
@@ -75,10 +75,9 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTables');
+  let display = $('#petTableSpot');
   pets = petData.pets;
   display.empty();
-
   for (pet of pets) {
     console.log(pet);
     let $tr = $(`<tr data-id='${pet[0]}'</tr>`);
