@@ -3,7 +3,7 @@ CREATE TABLE pets(
 	"pet" VARCHAR (50) NOT NULL,
 	"breed" VARCHAR (50),
 	"color" VARCHAR (15),
-  	"checked_in" VARCHAR (15) DEFAULT 'unchecked',
+  	"checked_in" BOOLEAN DEFAULT 'FALSE',
     "notes" VARCHAR (80)
 ); 
 
