@@ -1,10 +1,29 @@
 body {
-    background: linear-gradient(to bottom, transparent 0%, #fbf7ca 50%, transparent 100%);
-
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #fbf7ca 50%,
+    transparent 100%
+  );
 }
 
 h1,
 .fancy {
-    font-family: 'Fredericka the Great', cursive;
-    color: pink;
+  font-family: 'Fredericka the Great', cursive;
+  color: pink;
+  font-size: 3rem;
+}
+
+table tr:nth:child(even) {
+  background: pink;
+}
+
+table tr:nth-child(odd) {
+  background: #17ddcc;
+}
+
+table td,
+th {
+  display: flex;
+  border: 1px solid #999;
 }
