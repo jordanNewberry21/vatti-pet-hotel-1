@@ -99,3 +99,4 @@ function renderPets(petData) {
     display.append($tr);
   }
 }
+
