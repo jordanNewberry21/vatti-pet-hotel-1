@@ -2,8 +2,21 @@ $(function () {
   //on ready func using anonymous function
 });
 
+function getPets() { // ajax GET function
+  $.ajax({
+    method: 'GET',
+    url: '/pets' // setting the url for data transactions
+  }).then(function (response) {
+    console.log(response);
+    renderPets(response); // call render with response from server
+  }).catch(function (error) {
+    console.log('error in GET route', error);
+  });
+};
+
+
 function renderPets(petData) {
-  let display = $('#placeHolder');
+  let display = $('#petTables');
   display.empty();
   for (pet of petData) {
     let $tr = $(`<tr data-id='${pet.id}'</tr>`);
@@ -12,7 +25,7 @@ function renderPets(petData) {
     $tr.append(`<td class="breed">${pet.breed}</td>`);
     $tr.append(`<td class="color">${pet.color}</td>`);
     $tr.append(
-      `<td class="checkIn" data-checkIn='${pet.checkIn}'>${pet.checkIn}</td>`
+      `<td class="checkIn" data-checkIn='${pet.checked_in}'>${pet.checked_in}</td>`
     );
     $tr.append(`<td class="notes">${pet.notes}</td>`);
     $tr.append(
