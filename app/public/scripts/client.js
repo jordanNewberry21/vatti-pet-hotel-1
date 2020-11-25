@@ -24,14 +24,12 @@ function getPets() {
 function addPet(e) {
   e.preventDefault();
   console.log('adding pet');
-  let pet = 
-    {
-      name: $('#petNameInput').val(),
-      breed: $('#breedInput').val(),
-      color: $('#colorInput').val(),
-      notes: $('#petNotesInput').val(),
-    },
-  ;
+  let pet = {
+    name: $('#petNameInput').val(),
+    breed: $('#breedInput').val(),
+    color: $('#colorInput').val(),
+    notes: $('#petNotesInput').val(),
+  };
   console.log(pet);
   $.ajax({
     method: 'POST',
@@ -41,6 +39,7 @@ function addPet(e) {
     data: JSON.stringify(pet),
   }).then(function (response) {
     console.log('pets posted');
+    getPets();
   });
 }
 
