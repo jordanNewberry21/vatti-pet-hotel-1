@@ -1,4 +1,4 @@
-from flask import Flask, redirect, g, request
+from flask import Flask, redirect, g, request, jsonify
 from app import app
 import psycopg2.pool
 
@@ -26,11 +26,6 @@ def close_db_conn(taco):
     if db is not None:
         app.config['postgreSQL_pool'].putconn(db)
         print('Closing connection')
-
-
-@app.route('/')
-def index():
-    return redirect('/index.html')
 
 
 @app.route('/pets', methods=['GET', 'POST'])
@@ -95,12 +90,12 @@ def getAllPets():
 
     # run our select query
     cursor.execute('SELECT * FROM pets ORDER BY id DESC;')
-
+    
     # Get our results
     result = cursor.fetchall()
-
+    print(result)
     # IMPORTANT - CLOSE cursor
     cursor.close()
 
     # send back results
-    return {'pets': result}
+    return {'pets':result}
