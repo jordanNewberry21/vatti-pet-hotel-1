@@ -30,7 +30,7 @@ function addPet() {
   console.log('pets posted') 
 })
 
-//  
+//  DELETE Request 
 function deletePet( petId ) {
   $.ajax({
     method: 'DELETE',
@@ -45,6 +45,22 @@ function deletePet( petId ) {
     })
 }
 
+function checkInStatus(petId, petCheckIn) {
+  console.log (`koalaInfo in fn - id: ${petId} Check in status: ${petCheckIn}`);
+  $.ajax({
+    method: 'PUT',
+    url: `/pets/${petId}`,
+    data: petCheckIn
+  })
+    .then(function (response) {
+      getKoalas();
+    })
+    .catch(function (error) {
+      console.log('Error:', error);
+      alert('Something bad happened. Try again later');
+    })
+}
+// Render pets 
 function renderPets(petData) {
   let display = $('#petTables');
   display.empty();
