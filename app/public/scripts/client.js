@@ -46,7 +46,7 @@ function deletePet( petId ) {
 }
 
 function checkInStatus(petId, petCheckIn) {
-  console.log (`koalaInfo in fn - id: ${petId} Check in status: ${petCheckIn}`);
+  console.log (`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
   $.ajax({
     method: 'PUT',
     url: `/pets/${petId}`,
