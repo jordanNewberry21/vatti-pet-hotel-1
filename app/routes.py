@@ -1,4 +1,4 @@
-from flask import Flask, redirect, g, request, jsonify
+from flask import Flask, redirect, g, request 
 from app import app
 import psycopg2.pool
 
@@ -18,7 +18,9 @@ def get_db_conn():
     return g.db
 
 # Close the database connection when done with a query
-
+@app.route('/')
+def index():
+    return redirect('/index.html')
 
 @app.teardown_appcontext
 def close_db_conn(taco):
