@@ -24,18 +24,21 @@ function getPets() {
 function addPet(e) {
   e.preventDefault();
   console.log('adding pet');
-  let pet = {
-    name: $('#petNameInput').val(),
-    breed: $('#breedInput').val(),
-    color: $('#colorInput').val(),
-    notes: $('#petNotesInput').val(),
-  };
+  let pet = 
+    {
+      name: $('#petNameInput').val(),
+      breed: $('#breedInput').val(),
+      color: $('#colorInput').val(),
+      notes: $('#petNotesInput').val(),
+    },
+  ;
+  console.log(pet);
   $.ajax({
     method: 'POST',
-    contentType: 'application/json',
     url: '/pets',
     dataType: 'json',
-    data: pet,
+    contentType: 'application/json; charset=utf-8',
+    data: JSON.stringify(pet),
   }).then(function (response) {
     console.log('pets posted');
   });
@@ -44,7 +47,7 @@ function addPet(e) {
 //  DELETE Request
 function deletePet() {
   let petId = $(this).closest('tr').data('id');
-  console.log('in delete-btn. pet id is... ', petId);
+  console.log('delete');
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
@@ -75,9 +78,10 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTableSpot');
+  let display = $('#petTables');
   pets = petData.pets;
   display.empty();
+
   for (pet of pets) {
     console.log(pet);
     let $tr = $(`<tr data-id='${pet[0]}'</tr>`);
@@ -88,14 +92,11 @@ function renderPets(petData) {
     $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
-      `<td class="td-checkIn">
-      <button class='btn btn-checkIn'>Mark For checkIn</button>
-      <button class='btn btn-delete'>Delete</button>
-      </td>`
+      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
     );
-    // $tr.append(
-    //   `<td class="td-delete"><button class='btn btn-delete'>Delete</button></td>`
-    // );
+    $tr.append(
+      `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
+    );
     display.append($tr);
   }
 }

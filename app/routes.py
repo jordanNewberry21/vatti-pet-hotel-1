@@ -35,8 +35,7 @@ def pets():
     if request.method == 'GET':
         return  getAllPets()
     elif request.method == 'POST':
-        data = request.form
-        print(data)
+        data = request.form.to_dict();
         return addPet(data)
 
 
