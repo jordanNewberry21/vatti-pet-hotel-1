@@ -1,6 +1,12 @@
+console.log('isadhfsahjfaf');
+
 $(function () {
+  console.log('in ready function');
+  getPets();
   //on ready func using anonymous function
+
 });
+
 
 function getPets() { // ajax GET function
   $.ajax({
