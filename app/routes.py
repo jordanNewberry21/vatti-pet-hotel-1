@@ -1,4 +1,4 @@
-from flask import Flask, redirect, g, request 
+from flask import Flask, redirect, g, request, jsonify 
 from app import app
 import psycopg2.pool
 
@@ -35,11 +35,13 @@ def pets():
     if request.method == 'GET':
         return  getAllPets()
     elif request.method == 'POST':
-        return addPet(request.form)
+        data = request.form
+        print(data)
+        return addPet(data)
 
 
 def addPet(pet):
-    print('Checking in a new pet to the hotel!')
+    print('Checking in a new pet to the hotel!', pet)
     cursor = None
     response = None
 
@@ -68,22 +70,20 @@ def deletePet(id):
         print(id)
         connection = get_db_conn()
         cursor = connection.cursor()
-        postgres_insert_query = ' DELETE FROM "pets" WHERE "id" = %s '
-        record_to_insert = [id]
-        cursor.execute(postgres_insert_query, record_to_insert)
+        postgres_insert_query =  "DELETE FROM pets WHERE id = %s", (id)
+        cursor.execute(postgres_insert_query)
         connection.commit()
-        return 'PUT'
+        cursor.close()
     except (Exception, psycopg2.Error) as error:
         if(connection):
             print("Failed to DELETE in db: ", error)
-            return 'failed'
     finally:
         # closing database connection.
         if(connection):
             cursor.close()
             # connection.close()
             print("PostgreSQL cursor is closed")
-            return 'finally'
+    return 'Deleted complete'
 
 def getAllPets():
     # get a connection to our database, use that to get a cursor

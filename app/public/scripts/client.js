@@ -1,7 +1,8 @@
 $(function () {
   console.log('in ready function');
   getPets();
-  $('#petTableSpot').on('click', '.btn-delete', deletePet)
+  $('#petTableSpot').on('click', '.btn-delete', deletePet);
+  $('#petSubmitBtn').on('click', addPet);
   //on ready func using anonymous function
 });
 
@@ -20,17 +21,21 @@ function getPets() {
 }
 
 // POST request
-function addPet() {
+function addPet(e) {
+  e.preventDefault();
   console.log('adding pet');
+  let pet = {
+    name: $('#petNameInput').val(),
+    breed: $('#breedInput').val(),
+    color: $('#colorInput').val(),
+    notes: $('#petNotesInput').val(),
+  };
   $.ajax({
     method: 'POST',
+    contentType: 'application/json',
     url: '/pets',
-    data: {
-      name: $('#petNameInput').val(),
-      breed: $('#breedInput').val(),
-      color: $('#colorInput').val(),
-      notes: $('#petNotesInput').val(),
-    },
+    dataType: 'json',
+    data: pet,
   }).then(function (response) {
     console.log('pets posted');
   });
@@ -42,7 +47,7 @@ function deletePet() {
   console.log('in delete-btn. pet id is... ', petId);
   $.ajax({
     method: 'DELETE',
-    url: `/pets/${petId}`
+    url: `/pets/${petId}`,
   })
     .then(function (response) {
       getPets();
