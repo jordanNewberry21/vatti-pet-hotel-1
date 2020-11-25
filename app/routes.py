@@ -68,7 +68,7 @@ def deletePet(id):
         print(id)
         connection = get_db_conn()
         cursor = connection.cursor()
-        postgres_insert_query = """ DELETE FROM "pets" WHERE "id" = %s """
+        postgres_insert_query = ' DELETE FROM "pets" WHERE "id" = %s '
         record_to_insert = [id]
         cursor.execute(postgres_insert_query, record_to_insert)
         connection.commit()
@@ -101,3 +101,26 @@ def getAllPets():
 
     # send back results
     return {'pets':result}
+
+@app.route('/pets/<id>', methods=['PUT'])
+def putPet(id):
+    try:
+        print(pet_id, request.json['date'])
+        connection = get_db_conn()
+        cursor = connection.cursor()
+        postgres_insert_query= 'UPDATE pets SET checked_in = NOT checked_in WHERE id =%s'
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        return 'recieved PUT'
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to PUT to db", error)
+            return 'failed'
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
+            return 'finally'
+
