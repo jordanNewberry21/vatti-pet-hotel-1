@@ -73,7 +73,6 @@ function renderPets(petData) {
   let display = $('#petTableSpot');
   pets = petData.pets;
   display.empty();
-
   for (pet of pets) {
     console.log(pet);
     let $tr = $(`<tr data-id='${pet[0]}'</tr>`);
