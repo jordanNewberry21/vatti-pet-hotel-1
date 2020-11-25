@@ -20,7 +20,53 @@ function getPets() { // ajax GET function
   });
 };
 
+// POST request  
+function addPet() { 
+  console.log('adding pet')
+  $.ajax({
+    method: 'POST', 
+    url: '/pets', 
+    data: { 
+      name: $('#petNameInput').val(), 
+      breed: $('#breedInput').val(), 
+      color: $('#colorInput').val(), 
+      notes: $('#petNotesInput').val() 
+      }
+}).then( function(response) {
+  console.log('pets posted') 
+})
 
+//  DELETE Request 
+function deletePet( petId ) {
+  $.ajax({
+    method: 'DELETE',
+    url: `/pets/${petId}`
+  })
+    .then(function (response) {
+      getPets();
+    })
+    .catch(function (error) {
+      console.log('Error:', error);
+      alert('Something bad happened. Try again later');
+    })
+}
+
+function checkInStatus(petId, petCheckIn) {
+  console.log (`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
+  $.ajax({
+    method: 'PUT',
+    url: `/pets/${petId}`,
+    data: petCheckIn
+  })
+    .then(function (response) {
+      getPets();
+    })
+    .catch(function (error) {
+      console.log('Error:', error);
+      alert('Something bad happened. Try again later');
+    })
+}
+// Render pets 
 function renderPets(petData) {
   let display = $('#petTables');
   display.empty();
