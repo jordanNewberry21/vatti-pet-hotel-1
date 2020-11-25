@@ -1,84 +1,106 @@
-from flask import Flask, redirect, g, request 
+from flask import Flask, redirect, g, request
 from app import app
+import psycopg2.pool
 
 app.config['postgreSQL_pool'] = psycopg2.pool.SimpleConnectionPool(
-    1, #min number of connections 
-    10, #max number of connections 
-    host = '127.0.0.1', 
-    port = '5432', 
-    database = 'pet_hotel' # Database name - this changes per project 
+    1,  # min number of connections
+    10,  # max number of connections
+    host='127.0.0.1',
+    port='5432',
+    database='pet_hotel'  # Database name - this changes per project
 )
 
-def get_db_conn(): 
-    if 'db' not in g: 
+
+def get_db_conn():
+    if 'db' not in g:
         g.db = app.config['postgreSQL_pool'].getconn()
         print('Got a connection')
     return g.db
 
-# Close the database connection when done with a query 
-@app.teardown_appcontext 
-def close_db_conn(taco): 
+# Close the database connection when done with a query
+
+
+@app.teardown_appcontext
+def close_db_conn(taco):
     db = g.pop('db', None)
-    if db is not None: 
+    if db is not None:
         app.config['postgreSQL_pool'].putconn(db)
-        print('Closing connection') 
+        print('Closing connection')
+
 
 @app.route('/')
 def index():
-  return redirect('/index.html')
-  
+    return redirect('/index.html')
+
+
 @app.route('/pets', methods=['GET', 'POST'])
-def pets(): 
-  if request.method == 'GET':
-      #do stuff
-      return #placeHolder 
-  elif request.method == 'POST':
-      return addPet(request.form)
-
-def addPet(pet): 
-  print('Checking in a new pet to the hotel!')
-  curse = None
-  response = None
-
-  try:
-    connection = get_db_conn() 
-    cursor = connection.cursor()
-
-    sql = "INSERT INTO pets (name, breed, color) VALUES (%s, %s, %s, %s)"
-    cursor.execute(sql, (pet['name'], pet['breed'], pet['color']))
-
-    connection.commit() 
-    response = {"msg": "Added your pet successfully to the hotel"}, 201 
-  except psycopg2.Error as e: 
-    print("Error when checking in your pet")
-    response = {"msg": "Error checking in your pet, sorry!"}, 500 
-  else: 
-    if cursor: 
-      cursor.close() 
-  
-  return response
+def pets():
+    if request.method == 'GET':
+        return  getAllPets()
+    elif request.method == 'POST':
+        return addPet(request.form)
 
 
-@app.route('/pets/<name> methods=['DELETE'])
+def addPet(pet):
+    print('Checking in a new pet to the hotel!')
+    cursor = None
+    response = None
+
+    try:
+        connection = get_db_conn()
+        cursor = connection.cursor()
+
+        sql = "INSERT INTO pets (name, breed, color, notes) VALUES (%s, %s, %s, %s)"
+        cursor.execute(sql, (pet['name'], pet['breed'], pet['color'], pet['notes']))
+
+        connection.commit()
+        response = {"msg": "Added your pet successfully to the hotel"}, 201
+    except psycopg2.Error as e:
+        print("Error when checking in your pet")
+        response = {"msg": "Error checking in your pet, sorry!"}, 500
+    else:
+        if cursor:
+            cursor.close()
+
+    return response
+
+
+@app.route('/pets/<name>', methods=['DELETE'])
 def deletePet(id):
     try:
         print(id)
-        connection = mainConnection
+        connection = get_db_conn()
         cursor = connection.cursor()
-        postgres_insert_query=""" DELETE FROM "pets" WHERE "id" = %s """
+        postgres_insert_query = """ DELETE FROM "pets" WHERE "id" = %s """
         record_to_insert = [id]
         cursor.execute(postgres_insert_query, record_to_insert)
         connection.commit()
         return 'PUT'
-    except (Exception, psycopg2.Error) as error :
+    except (Exception, psycopg2.Error) as error:
         if(connection):
             print("Failed to DELETE in db: ", error)
             return 'failed'
     finally:
-        #closing database connection.
+        # closing database connection.
         if(connection):
             cursor.close()
             # connection.close()
             print("PostgreSQL cursor is closed")
             return 'finally'
 
+def getAllPets():
+    # get a connection to our database, use that to get a cursor
+    conn = get_db_conn()
+    cursor = conn.cursor()
+
+    # run our select query
+    cursor.execute('SELECT * FROM pets ORDER BY id DESC;')
+
+    # Get our results
+    result = cursor.fetchall()
+
+    # IMPORTANT - CLOSE cursor
+    cursor.close()
+
+    # send back results
+    return {'pets': result}
