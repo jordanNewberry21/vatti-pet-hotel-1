@@ -1,15 +1,55 @@
+table, th, tr, td{
+    margin-left: 2em;
+    color: rgb(3, 31, 56);
+    text-align: center;
+    text-indent: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+th {
+    background-color: rgb(3, 31, 56);
+    color: rgb(208, 225, 240)
+}
+
+tr {
+    background-color: aliceblue;
+}
+
+label.petNameInput {
+    color: rgb(37, 56, 73);
+}
+
+label {
+    color: rgb(166, 192, 214);
+}
+
 body {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #fbf7ca 50%,
-    transparent 100%
-  );
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgb(3, 31, 56) 50%,
+            transparent 100%);
 }
 
 h1,
 .fancy {
-  font-family: 'Fredericka the Great', cursive;
-  color: pink;
-  font-size: 3rem;
+    font-family: 'Fredericka the Great', cursive;
+    color: rgb(3, 31, 56);
+    font-size: 3rem;
 }
+
+h2,
+.fancy {
+    font-size: 2rem;
+    color: rgb(3, 31, 56);
+    /* same color as skeleton primary buttons */
+}
+
+.btn {
+    background: linear-gradient(to top,
+            transparent 0%,
+            #0d033b 50%,
+            transparent 100%);
+    color: white;
+}
+
+

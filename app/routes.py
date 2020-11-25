@@ -101,3 +101,26 @@ def getAllPets():
 
     # send back results
     return {'pets':result}
+
+@app.route('/pets/<id>', methods=['PUT'])
+def putPet(id):
+    try:
+        print(id)
+        connection = get_db_conn()
+        cursor = connection.cursor()
+        postgres_insert_query= 'UPDATE pets SET checked_in = NOT checked_in WHERE id =%s'
+        cursor.execute(postgres_insert_query)
+        connection.commit()
+        return 'recieved PUT'
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to PUT to db", error)
+            return 'failed'
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            # connection.close()
+            print("PostgreSQL cursor is closed")
+            return 'finally'
+
