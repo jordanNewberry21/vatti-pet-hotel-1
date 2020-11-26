@@ -30,6 +30,7 @@ function addPet(e) {
     "color": $('#colorInput').val(),
     "notes": $('#petNotesInput').val(),
   };
+  console.log(pet);
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
@@ -38,13 +39,14 @@ function addPet(e) {
     url: '/pets',
   }).then(function (response) {
     console.log('pets posted');
+    getPets();
   });
 }
 
 //  DELETE Request
 function deletePet() {
   let petId = $(this).closest('tr').data('id');
-  console.log('in delete-btn. pet id is... ', petId);
+  console.log('delete');
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
@@ -75,9 +77,10 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTableSpot');
+  let display = $('#petTables');
   pets = petData.pets;
   display.empty();
+
   for (pet of pets) {
     console.log(pet);
     let $tr = $(`<tr data-id='${pet[0]}'</tr>`);
@@ -88,14 +91,12 @@ function renderPets(petData) {
     $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
-      `<td class="td-checkIn">
-      <button class='btn btn-checkIn'>Mark For checkIn</button>
-      <button class='btn btn-delete'>Delete</button>
-      </td>`
+      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
     );
-    // $tr.append(
-    //   `<td class="td-delete"><button class='btn btn-delete'>Delete</button></td>`
-    // );
+    $tr.append(
+      `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
+    );
     display.append($tr);
   }
 }
+
