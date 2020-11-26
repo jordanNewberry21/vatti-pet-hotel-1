@@ -41,6 +41,7 @@ def pets():
 
 
 def addPet(pet):
+    pet = request.get_json()
     print('Checking in a new pet to the hotel!', pet)
     cursor = None
     response = None
@@ -48,7 +49,7 @@ def addPet(pet):
     try:
         connection = get_db_conn()
         cursor = connection.cursor()
-
+        print(pet)
         sql = "INSERT INTO pets (name, breed, color, notes) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (pet['name'], pet['breed'], pet['color'], pet['notes']))
 
@@ -111,7 +112,7 @@ def putPet(id):
         postgres_insert_query= 'UPDATE pets SET checked_in = NOT checked_in WHERE id =%s'
         cursor.execute(postgres_insert_query)
         connection.commit()
-        return 'recieved PUT'
+        return 'received PUT'
     except (Exception, psycopg2.Error) as error :
         if(connection):
             print("Failed to PUT to db", error)

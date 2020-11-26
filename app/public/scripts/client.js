@@ -25,17 +25,17 @@ function addPet(e) {
   e.preventDefault();
   console.log('adding pet');
   let pet = {
-    name: $('#petNameInput').val(),
-    breed: $('#breedInput').val(),
-    color: $('#colorInput').val(),
-    notes: $('#petNotesInput').val(),
+    "name": $('#petNameInput').val(),
+    "breed": $('#breedInput').val(),
+    "color": $('#colorInput').val(),
+    "notes": $('#petNotesInput').val(),
   };
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
+    dataType : 'json',
+    data : JSON.stringify(pet),
     url: '/pets',
-    dataType: 'json',
-    data: pet,
   }).then(function (response) {
     console.log('pets posted');
   });
