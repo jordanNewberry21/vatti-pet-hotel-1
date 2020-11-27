@@ -25,16 +25,18 @@ function addPet(e) {
   e.preventDefault();
   console.log('adding pet');
   let pet = {
-    name: $('#petNameInput').val(),
-    breed: $('#breedInput').val(),
-    color: $('#colorInput').val(),
-    notes: $('#petNotesInput').val(),
+    "name": $('#petNameInput').val(),
+    "breed": $('#breedInput').val(),
+    "color": $('#colorInput').val(),
+    "notes": $('#petNotesInput').val(),
   };
   console.log(pet);
   $.ajax({
-    type: 'POST',
+    method: 'POST',
+    contentType: 'application/json',
+    dataType : 'json',
+    data : JSON.stringify(pet),
     url: '/pets',
-    data: pet, // object to send to server-side to input in DB
   }).then(function (response) {
     console.log('pets posted');
     getPets();
