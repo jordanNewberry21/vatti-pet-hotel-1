@@ -2,6 +2,7 @@ $(function () {
   console.log('in ready function');
   getPets();
   $('#petTableSpot').on('click', '.btn-delete', deletePet);
+  $('#petTableSpot').on('click', '.btn-checkIn', checkInStatus);
   $('#petSubmitBtn').on('click', addPet);
   //on ready func using anonymous function
 });
@@ -39,6 +40,7 @@ function addPet(e) {
     url: '/pets',
   }).then(function (response) {
     console.log('pets posted');
+    $('.input').val('')
     getPets();
   });
 }
@@ -61,6 +63,8 @@ function deletePet() {
 }
 
 function checkInStatus(petId, petCheckIn) {
+  petId = $(this).closest('tr').data('id');
+  petCheckIn = $(this).closest('tr').data('checkIn');
   console.log(`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
   $.ajax({
     method: 'PUT',
@@ -92,8 +96,8 @@ function renderPets(petData) {
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
       `<td class="td-checkIn">
-      <button class='btn-checkIn'>Mark For checkIn</button>
-      <button class='btn-delete'>Delete</button>
+      <button class='btn btn-checkIn'>Mark For checkIn</button>
+      <button class='btn btn-delete'>Delete</button>
       </td>`
     );
     
