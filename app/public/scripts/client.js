@@ -46,7 +46,7 @@ function addPet(e) {
 //  DELETE Request
 function deletePet() {
   let petId = $(this).closest('tr').data('id');
-  console.log('delete');
+  console.log('in delete button', petId);
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
@@ -77,7 +77,7 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTables');
+  let display = $('#petTableSpot');
   pets = petData.pets;
   display.empty();
 
@@ -91,11 +91,12 @@ function renderPets(petData) {
     $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
-      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
+      `<td class="td-checkIn">
+      <button class='btn-checkIn'>Mark For checkIn</button>
+      <button class='btn-delete'>Delete</button>
+      </td>`
     );
-    $tr.append(
-      `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
-    );
+    
     display.append($tr);
   }
 }

@@ -54,7 +54,7 @@ def addPet(pet):
         connection.commit()
         response = {"msg": "Added your pet successfully to the hotel"}, 201
     except psycopg2.Error as e:
-        print("Error when checking in your pet")
+        print("Error when checking in your pet", e)
         response = {"msg": "Error checking in your pet, sorry!"}, 500
     else:
         if cursor:
@@ -66,13 +66,13 @@ def addPet(pet):
 @app.route('/pets/<id>', methods=['DELETE'])
 def deletePet(id):
     try:
-        print(id)
+        print('Deleting pet at id#', id)
         connection = get_db_conn()
         cursor = connection.cursor()
-        postgres_insert_query =  "DELETE FROM pets WHERE id = %s", (id)
-        cursor.execute(postgres_insert_query)
+        sql =  """DELETE FROM pets WHERE id = %s;"""
+        cursor.execute(sql, (id))
         connection.commit()
-        cursor.close()
+        response = {"msg": "Deleted your pet successfully from the hotel"}, 201
     except (Exception, psycopg2.Error) as error:
         if(connection):
             print("Failed to DELETE in db: ", error)
@@ -82,7 +82,7 @@ def deletePet(id):
             cursor.close()
             # connection.close()
             print("PostgreSQL cursor is closed")
-    return 'Deleted complete'
+    return response
 
 def getAllPets():
     # get a connection to our database, use that to get a cursor
