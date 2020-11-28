@@ -7,7 +7,7 @@
 
 ## Description
 
-Our client needs a full-stack application that can compete all CRUD (create, read, update, delete) requests for 
+Our client needs a full-stack application that can complete all CRUD (create, read, update, delete) requests for 
 pets at their hotel. Now the Four Pets Hotels can easily track guests as they check-in and out of the hotel. 
 
 ## Screenshot
@@ -31,7 +31,7 @@ pets at their hotel. Now the Four Pets Hotels can easily track guests as they ch
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Acknowledgement
-Thanks to [Prime Digital Academy](www.primeacademy.io) who equipped helped me make this application a reality. Sepcial thanks to our primary instructor, [Mary Mossman](https://github.com/mbMosman)
+Thanks to [Prime Digital Academy](www.primeacademy.io) who equipped me with the knowledge that helped me make this application a reality. Special thanks to our primary instructor, [Mary Mosman](https://github.com/mbMosman)
 
 This application was built by:
 - [James Posey](https://github.com/jposeyjr)
