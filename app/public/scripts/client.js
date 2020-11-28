@@ -2,6 +2,7 @@ $(function () {
   console.log('in ready function');
   getPets();
   $('#petTableSpot').on('click', '.btn-delete', deletePet);
+  $('#petTableSpot').on('click', '.btn-checkIn', checkInStatus);
   $('#petSubmitBtn').on('click', addPet);
   //on ready func using anonymous function
 });
@@ -46,7 +47,7 @@ function addPet(e) {
 //  DELETE Request
 function deletePet() {
   let petId = $(this).closest('tr').data('id');
-  console.log('delete');
+  console.log('in delete button', petId);
   $.ajax({
     method: 'DELETE',
     url: `/pets/${petId}`,
@@ -61,6 +62,8 @@ function deletePet() {
 }
 
 function checkInStatus(petId, petCheckIn) {
+  petId = $(this).closest('tr').data('id');
+  petCheckIn = $(this).closest('tr').data('checkIn');
   console.log(`pet Info in fn - id: ${petId} Check in status: ${petCheckIn}`);
   $.ajax({
     method: 'PUT',
@@ -77,7 +80,7 @@ function checkInStatus(petId, petCheckIn) {
 }
 // Render pets
 function renderPets(petData) {
-  let display = $('#petTables');
+  let display = $('#petTableSpot');
   pets = petData.pets;
   display.empty();
 
@@ -91,10 +94,10 @@ function renderPets(petData) {
     $tr.append(`<td class="checkIn" data-checkIn='${pet[4]}'>${pet[4]}</td>`);
     $tr.append(`<td class="notes">${pet[5]}</td>`);
     $tr.append(
-      `<td class="td-checkIn"><button class='btn-checkIn'>Mark For checkIn</button></td>`
-    );
-    $tr.append(
-      `<td class="td-delete"><button class='btn-delete'>Delete</button></td>`
+      `<td class="td-checkIn">
+      <button class='btn btn-checkIn'>Mark For checkIn</button>
+      <button class='btn btn-delete'>Delete</button>
+      </td>`
     );
     display.append($tr);
   }
